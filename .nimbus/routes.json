@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "base": "/docs/",
+  "knownRoutes": [
+    "/",
+    "/404",
+    "/components",
+    "/getting-started",
+    "/welcome"
+  ],
+  "opaqueNamespaces": []
+}
