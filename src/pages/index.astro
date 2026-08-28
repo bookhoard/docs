@@ -8,8 +8,9 @@ import { config } from "virtual:nimbus/config";
   <div class="flex flex-col min-h-screen">
     <Header />
     <main id="main-content" tabindex="-1" class="flex-1 mx-auto max-w-2xl w-full px-6 py-24">
+      <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" width="56" height="56" class="rounded-xl" />
       <h1
-        class="text-foreground leading-tight"
+        class="mt-4 text-foreground leading-tight"
         style="font-size: var(--nb-h1-size); font-weight: var(--nb-h1-weight); letter-spacing: var(--nb-h1-tracking);"
       >
         {config.title}
@@ -24,21 +25,23 @@ import { config } from "virtual:nimbus/config";
           class="block rounded-lg border border-border p-4 transition-colors hover:border-border-strong no-underline"
         >
           <div class="font-medium text-foreground">Welcome</div>
-          <div class="mt-0.5 text-sm text-muted-foreground">Start here</div>
+          <div class="mt-0.5 text-sm text-muted-foreground">What Bookhoard is</div>
         </a>
         <a
           href="/getting-started"
           class="block rounded-lg border border-border p-4 transition-colors hover:border-border-strong no-underline"
         >
-          <div class="font-medium text-foreground">Getting Started</div>
-          <div class="mt-0.5 text-sm text-muted-foreground">Install + configure</div>
+          <div class="font-medium text-foreground">Deploy with Docker</div>
+          <div class="mt-0.5 text-sm text-muted-foreground">Start here</div>
         </a>
         <a
-          href="/components"
+          href="https://github.com/bookhoard/bookhoarder"
+          target="_blank"
+          rel="noopener"
           class="block rounded-lg border border-border p-4 transition-colors hover:border-border-strong no-underline"
         >
-          <div class="font-medium text-foreground">Components</div>
-          <div class="mt-0.5 text-sm text-muted-foreground">See them in action</div>
+          <div class="font-medium text-foreground">GitHub</div>
+          <div class="mt-0.5 text-sm text-muted-foreground">Source + issues</div>
         </a>
       </div>
     </main>
