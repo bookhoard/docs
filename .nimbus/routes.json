@@ -4,8 +4,26 @@
   "knownRoutes": [
     "/",
     "/404",
-    "/getting-started",
-    "/welcome"
+    "/api/books",
+    "/api/other-endpoints",
+    "/api/overview",
+    "/api/profiles",
+    "/api/settings",
+    "/api/shelves",
+    "/deployment",
+    "/deployment/cloudflare",
+    "/deployment/docker",
+    "/deployment/kubernetes",
+    "/features",
+    "/features/library",
+    "/features/metadata-and-discovery",
+    "/features/profiles",
+    "/features/send-to-ereader",
+    "/features/shelves",
+    "/storage",
+    "/storage/cloudflare-r2",
+    "/storage/local",
+    "/storage/s3"
   ],
   "opaqueNamespaces": []
 }

@@ -1,0 +1,55 @@
+---
+title: Settings
+description: Read and update the server-wide SMTP, trending, and metadata-lookup settings.
+sidebar:
+  order: 5
+---
+
+These are the install's shared settings — see
+[Send to E-Reader](/features/send-to-ereader) and
+[Metadata & Discovery](/features/metadata-and-discovery) for what they
+control. A profile's *own* e-reader address is edited through
+[`PATCH /api/profiles/:id`](/api/profiles#patch-apiprofilesid), not here.
+
+## `GET /api/settings`
+
+<Badge text="GET" variant="info" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Returns the current settings. The SMTP password is never included —
+`smtp.hasPassword: boolean` stands in for it.
+
+**Response**
+
+```json
+{
+  "settings": {
+    "metadataCandidateLimit": 10,
+    "trendingEnabled": true,
+    "smtp": { "host": "smtp.example.com", "port": 587, "encryption": "starttls", "hasPassword": true }
+  }
+}
+```
+
+## `PATCH /api/settings`
+
+<Badge text="PATCH" variant="warning" size="medium" /> <Badge text="Admin only" variant="danger" size="medium" />
+
+Updates one or more settings. All fields optional — only send what's
+changing.
+
+**Request body**
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `metadataCandidateLimit` | integer 1–20 | How many Open Library candidates the fetch-metadata lookup requests |
+| `trendingEnabled` | boolean | Toggles the Trending page and sidebar entry |
+| `smtp.host` | string | |
+| `smtp.port` | number | Typically `587` (STARTTLS) or `465` (SSL) |
+| `smtp.encryption` | `"none" \| "starttls" \| "ssl"` | |
+| `smtp.user` | string | |
+| `smtp.pass` | string | Set a new password |
+| `smtp.clearPassword` | boolean | Clears the stored password instead of setting one |
+| `smtp.fromAddress` | string | Must be allowlisted on the receiving e-reader — see [Send to E-Reader](/features/send-to-ereader) |
+
+**Response:** `{ "settings": PublicAppSettings }`, or `400` if
+`metadataCandidateLimit` is outside 1–20.

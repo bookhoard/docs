@@ -2,6 +2,8 @@
 
 Astro-based docs. The `nimbus-docs` package handles content schemas, sidebar/TOC, MDX→markdown, build hooks, and the `nimbus` CLI. Everything in `src/` is yours to edit.
 
+This site documents [Bookhoarder](https://github.com/bookhoard/bookhoarder), a self-hosted EPUB library — this repo (`bookhoard/docs`) only holds the documentation, not the application source. For anything not covered here — implementation details, source code, open issues, exact env var handling — fetch the app repo directly rather than guessing.
+
 ## File layout
 
 ```

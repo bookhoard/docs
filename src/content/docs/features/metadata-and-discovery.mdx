@@ -1,0 +1,50 @@
+---
+title: Metadata & Discovery
+description: Open Library metadata lookup, cover fetching, and a trending shelf.
+sidebar:
+  label: Metadata & Discovery
+  order: 5
+---
+
+<Steps>
+  <Step title="Metadata comes in for free on upload">
+    Bookhoarder reads the EPUB's own title, author, ISBN, language, and
+    cover.
+  </Step>
+  <Step title="Improve it from Open Library">
+    A book's **Fetch metadata** action looks up better matches by ISBN,
+    title, and author, and lets you apply one.
+  </Step>
+  <Step title="Browse Trending to find something new">
+    A daily/weekly/monthly feed of what's popular on Open Library —
+    separate from your own library until you upload something.
+  </Step>
+</Steps>
+
+## Metadata lookup
+
+- Looks up candidates on [Open Library](https://openlibrary.org/) using
+  the book's ISBN, title, and author
+- You pick a candidate and apply it — title, author, description, and
+  cover are all optional to accept
+- Title, author, description, and cover can also be edited by hand at any
+  time, independent of any lookup
+- A cover can be replaced by uploading an image file or pasting an image
+  URL
+- Admins control how many candidates the lookup drawer requests, in
+  Settings → Metadata
+
+## Trending
+
+- A read-only feed of trending books from Open Library, by day, week, or
+  month — for discovering what to read next, not part of your library
+  until you add it yourself
+- Admins can turn it off entirely in Settings → Trending, which also
+  removes it from the sidebar
+
+<Aside type="tip" title="Open Library rate limits">
+  Set `OPENLIBRARY_CONTACT` (an email or contact URL) on the server —
+  identified requests get a 3x higher rate limit for metadata, cover, and
+  trending lookups. See the environment reference in
+  [Deploy with Docker](/deployment/docker#environment-reference).
+</Aside>

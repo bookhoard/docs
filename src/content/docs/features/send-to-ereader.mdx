@@ -1,0 +1,47 @@
+---
+title: Send to E-Reader
+description: Email any book in your library straight to a Kindle or other e-reader over SMTP.
+sidebar:
+  label: Send to E-Reader
+  order: 4
+---
+
+<Steps>
+  <Step title="Configure SMTP once (admin)">
+    Settings → E-Reader Email — host, port, encryption, credentials, and
+    a from address.
+  </Step>
+  <Step title="Set your e-reader's address (each profile)">
+    Settings → Profile — the email address your e-reader accepts books
+    at (a Kindle's `@kindle.com` address, for example).
+  </Step>
+  <Step title="Send a book">
+    From any book's menu, choose **Send to e-reader** — it's emailed as
+    an `.epub` attachment.
+  </Step>
+</Steps>
+
+## How it works
+
+- Sending goes through [Nodemailer](https://nodemailer.com/) over the
+  SMTP server configured in Settings → E-Reader Email — an admin-only
+  section, since it's shared by the whole install
+- Encryption is one of none, STARTTLS (typically port 587), or implicit
+  TLS/SSL (typically port 465)
+- Each profile has its own destination address, set on its own Profile
+  settings page — the same SMTP server can deliver to every reader's own
+  device
+- The email is sent with the book's title as the subject and the
+  original `.epub` as the only attachment
+
+<Aside type="tip" title="Allowlist the sender">
+  Most e-readers only accept mail from approved senders — add the SMTP
+  from address to your device's allowlist (Kindle calls this "Approved
+  Personal Document E-mail List") or the email will be silently dropped.
+</Aside>
+
+<Aside type="note" title="Nothing sends without both pieces">
+  If SMTP isn't configured, or the profile has no e-reader email set,
+  "Send to e-reader" fails with a message pointing at whichever one is
+  missing.
+</Aside>

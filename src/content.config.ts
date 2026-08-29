@@ -15,4 +15,5 @@ export const collections = {
     }),
   ),
   partials: defineCollection(partialsCollection()),
+  api: defineCollection(docsCollection({ base: "api" })),
 };

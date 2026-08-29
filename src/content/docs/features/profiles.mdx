@@ -1,0 +1,55 @@
+---
+title: Profiles & Access
+description: Multiple readers per install, admin and reader roles, and optional per-profile passwords.
+sidebar:
+  label: Profiles & Access
+  order: 3
+---
+
+<Steps>
+  <Step title="The first profile is always admin">
+    There's no separate setup account — whoever creates the install's
+    first profile can manage everything.
+  </Step>
+  <Step title="Add more profiles as needed">
+    From Settings → Manage Profiles (admin only), picking a role for
+    each.
+  </Step>
+  <Step title="Lock a profile, optionally">
+    Add a password from Settings → Profile — switching to that profile
+    then asks for it.
+  </Step>
+</Steps>
+
+## Roles
+
+Every profile is either an **admin** or a **reader**:
+
+- **Admins** can create and delete profiles, assign roles, delete books,
+  and edit server-wide settings — SMTP, trending, and metadata lookup
+- **Readers** can only edit their own profile (name, color, password,
+  e-reader email)
+
+Bookhoarder won't let you delete the only profile on an install, or the
+only remaining admin — there's always at least one profile, and it's
+always able to manage the place.
+
+## What's per-profile
+
+Each profile keeps its own:
+
+- Name and color
+- Shelves (see [Shelves](/features/shelves))
+- Ratings, read/unread status, and reading progress for every book
+- Password lock
+- E-reader destination email (see [Send to E-Reader](/features/send-to-ereader))
+
+The book library itself is shared — every profile sees the same books,
+just with its own shelves and reading state layered on top.
+
+## Password protection
+
+A profile's password is optional and locks *switching into* that
+profile, not the whole install. Passwords are hashed with salted scrypt
+on the server; the hash never reaches the client, and a profile with no
+password set is never locked.

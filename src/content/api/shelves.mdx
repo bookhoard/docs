@@ -1,0 +1,73 @@
+---
+title: Shelves
+description: List, create, edit, delete shelves, and add or remove books from them.
+sidebar:
+  order: 4
+---
+
+Shelves are scoped to the active profile — see [Shelves](/features/shelves).
+Every endpoint here operates on the active profile's own shelves; there's
+no way to read or edit another profile's shelves through this API.
+
+## `GET /api/shelves`
+
+<Badge text="GET" variant="info" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Lists the active profile's shelves, seeding the five default shelves on
+first call if none exist yet.
+
+**Response:** `{ "shelves": Shelf[] }`
+
+## `POST /api/shelves`
+
+<Badge text="POST" variant="success" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Creates a shelf.
+
+**Request body**
+
+| Field | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `name` | string | Yes | Trimmed; rejected if empty |
+| `color` | string | No | Assigned automatically if omitted |
+
+**Response:** `201` with `{ "shelf": Shelf }`
+
+## `PATCH /api/shelves/:id`
+
+<Badge text="PATCH" variant="warning" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Renames or recolors a shelf. Both fields optional.
+
+**Request body:** `{ "name"?: string, "color"?: string }`
+
+**Response:** `{ "shelf": Shelf }`, or `404` if the shelf doesn't exist.
+
+## `DELETE /api/shelves/:id`
+
+<Badge text="DELETE" variant="danger" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Deletes a shelf. Books on it aren't affected — they just stop being on
+that shelf.
+
+**Response:** `{ "ok": true }`
+
+## `POST /api/shelves/:id/books`
+
+<Badge text="POST" variant="success" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Adds a book to the shelf. Idempotent — adding a book already on the
+shelf is a no-op.
+
+**Request body:** `{ "bookId": string }`
+
+**Response:** `{ "shelves": Shelf[] }` — every shelf for the active
+profile, reflecting the change.
+
+## `DELETE /api/shelves/:id/books/:bookId`
+
+<Badge text="DELETE" variant="danger" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Removes a book from the shelf.
+
+**Response:** `{ "shelves": Shelf[] }`

@@ -1,49 +1,99 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Header from "../components/Header.astro";
+import DocsLayout from "../layouts/DocsLayout.astro";
+import { LinkButton } from "../components/ui/link-button";
+import { Card } from "../components/ui/card";
+import { CardGrid } from "../components/ui/card-grid";
+import { Aside } from "../components/ui/aside";
+import { Code } from "../components/ui/code";
+import { getSidebar } from "@cloudflare/nimbus-docs";
 import { config } from "virtual:nimbus/config";
+
+const sidebar = await getSidebar("/", { collection: "docs" });
+
+const quickstart = `docker run -d \\
+  --name bookhoard \\
+  -p 3000:3000 \\
+  -v bookhoard_data:/app/.data \\
+  -e STORAGE_DRIVER=local \\
+  ghcr.io/bookhoard/bookhoarder:latest`;
 ---
 
-<BaseLayout title={config.title} description={config.description}>
-  <div class="flex flex-col min-h-screen">
-    <Header />
-    <main id="main-content" tabindex="-1" class="flex-1 mx-auto max-w-2xl w-full px-6 py-24">
-      <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" width="56" height="56" class="rounded-xl" />
+<DocsLayout title={config.title} description={config.description} sidebar={sidebar} headings={[]} breadcrumbs={[]}>
+  <Fragment slot="pagination" />
+  <Fragment slot="page-title">
+    <div class="py-4 sm:py-8">
+      <div class="group relative size-14 shrink-0 overflow-hidden">
+        <img
+          src={`${import.meta.env.BASE_URL}logo/body.png`}
+          alt=""
+          width="56"
+          height="56"
+          class="absolute inset-0 size-full object-contain"
+        />
+        <img
+          src={`${import.meta.env.BASE_URL}logo/book.png`}
+          alt=""
+          width="56"
+          height="56"
+          class="absolute inset-0 size-full translate-y-[17%] object-contain transition-transform duration-300 ease-out group-hover:-translate-y-[1%]"
+        />
+      </div>
       <h1
-        class="mt-4 text-foreground leading-tight"
-        style="font-size: var(--nb-h1-size); font-weight: var(--nb-h1-weight); letter-spacing: var(--nb-h1-tracking);"
+        class="mt-5 text-foreground leading-tight [text-wrap:balance]"
+        style="font-size: clamp(2.25rem, 4vw, 2.75rem); font-weight: var(--nb-h1-weight); letter-spacing: var(--nb-h1-tracking);"
       >
-        {config.title}
+        Self-hosted EPUB library, no database required
       </h1>
-      <p class="mt-2 text-[1.0625rem] text-muted-foreground leading-relaxed">
-        {config.description}
+      <p class="mt-3 max-w-xl text-[1.0625rem] text-muted-foreground leading-relaxed [text-wrap:pretty]">
+        Bookhoarder reads and writes straight to object storage — local disk, S3, or
+        Cloudflare R2. Upload EPUBs, read them in the browser, and search your
+        collection.
       </p>
-
-      <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <a
-          href="/welcome"
-          class="block rounded-lg border border-border p-4 transition-colors hover:border-border-strong no-underline"
-        >
-          <div class="font-medium text-foreground">Welcome</div>
-          <div class="mt-0.5 text-sm text-muted-foreground">What Bookhoard is</div>
-        </a>
-        <a
-          href="/getting-started"
-          class="block rounded-lg border border-border p-4 transition-colors hover:border-border-strong no-underline"
-        >
-          <div class="font-medium text-foreground">Deploy with Docker</div>
-          <div class="mt-0.5 text-sm text-muted-foreground">Start here</div>
-        </a>
-        <a
+      <div class="mt-6 flex flex-wrap items-center gap-3">
+        <LinkButton href="/deployment/docker" variant="primary" size="lg" icon>
+          Get started
+        </LinkButton>
+        <LinkButton
           href="https://github.com/bookhoard/bookhoarder"
+          variant="outline"
+          size="lg"
           target="_blank"
           rel="noopener"
-          class="block rounded-lg border border-border p-4 transition-colors hover:border-border-strong no-underline"
         >
-          <div class="font-medium text-foreground">GitHub</div>
-          <div class="mt-0.5 text-sm text-muted-foreground">Source + issues</div>
-        </a>
+          View on GitHub
+        </LinkButton>
       </div>
-    </main>
-  </div>
-</BaseLayout>
+    </div>
+  </Fragment>
+
+  <h2>Quickstart</h2>
+  <p>Run Bookhoarder against the local filesystem — no bucket, no credentials:</p>
+  <Code code={quickstart} lang="sh" meta='title="Terminal"' />
+  <p>Open <a href="http://localhost:3000">localhost:3000</a> and create your first profile.</p>
+
+  <Aside type="tip" title="Deploying for real?">
+    The quickstart above stores books on a Docker volume. See <a href="/deployment/docker">Deploy
+    with Docker</a> for S3 and Cloudflare R2 setup — same image, different environment variables.
+    Deploying to <a href="/deployment/cloudflare">Cloudflare</a> or
+    <a href="/deployment/kubernetes">Kubernetes</a> instead? See <a href="/deployment">Deployment</a>.
+  </Aside>
+
+  <h2>What you get</h2>
+  <CardGrid>
+    <Card title="No database" icon="ph:database">
+      Object storage is the only persistence layer — nothing to provision, back
+      up, or migrate.
+    </Card>
+    <Card title="Multi-profile" icon="ph:users">
+      Admin and reader roles, with optional per-profile passwords.
+    </Card>
+    <Card title="EPUB reader" icon="ph:book-open">
+      In-browser reading via epub.js, with per-profile progress, ratings, and
+      shelves.
+    </Card>
+    <Card title="Pluggable storage" icon="ph:hard-drives">
+      Local filesystem or any S3-compatible bucket, with a configurable prefix
+      for sharing a bucket with other apps.
+    </Card>
+  </CardGrid>
+</DocsLayout>

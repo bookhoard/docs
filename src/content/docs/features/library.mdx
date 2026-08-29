@@ -1,0 +1,58 @@
+---
+title: Library & Reading
+description: Upload EPUBs, read them in the browser, and keep track of your progress.
+sidebar:
+  label: Library & Reading
+  order: 1
+---
+
+<Steps>
+  <Step title="Add a book">
+    Drag an `.epub` anywhere into the library, or use the upload button.
+    Uploading the same file twice is a no-op — Bookhoarder recognizes it
+    by content and points back to the existing book.
+  </Step>
+  <Step title="Read it in the browser">
+    Click a book to open the built-in reader. Your position and percent
+    complete are saved automatically, per profile.
+  </Step>
+  <Step title="Organize and find it again">
+    Rate it, mark it read, add it to a shelf, or pull it back up later
+    with search.
+  </Step>
+</Steps>
+
+## Uploading
+
+- Drag and drop, or the upload button in the library header
+- `.epub` files only
+- Deduplicated by content hash (SHA-256) — the same file uploaded twice
+  (even under a different filename) resolves to one book
+- Bookhoarder reads the EPUB's own metadata (title, author, ISBN,
+  language) and extracts its cover automatically
+- The archive is unpacked on upload so the reader can serve its contents
+  directly, rather than opening the `.epub` as a zip on every read
+
+## Reading
+
+- In-browser reader built on [epub.js](https://github.com/futurepress/epub.js/)
+- Table of contents drawer, and arrow-key navigation between pages
+- Reading position and percent complete are saved automatically per
+  profile — two profiles can read the same book independently, each
+  picking up where they left off
+- The reader follows your light/dark theme
+- **Reading Now**, in the sidebar, lists every book with progress,
+  most-recently-read first
+
+## Organizing and finding a book
+
+- Rate any book 1–5 stars
+- Mark a book read or unread
+- Search by title or author from the search dialog
+- On a shared install, a book's detail panel shows **Readers** — which
+  other profiles have read, rated, or are partway through it
+
+## Downloading and removing
+
+- Download the original `.epub` file from a book's menu at any time
+- Deleting a book is admin-only — see [Profiles & Access](/features/profiles)

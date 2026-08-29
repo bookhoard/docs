@@ -1,0 +1,122 @@
+---
+title: Books
+description: Upload, list, edit, delete, and send books to an e-reader.
+sidebar:
+  order: 3
+---
+
+See [Library & Reading](/features/library) for what these operations do
+in the UI. A book's `id` is a slug derived from its title (deduplicated
+with a hash suffix on collision), not a UUID.
+
+## `GET /api/books`
+
+<Badge text="GET" variant="info" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Lists every book in the library — this endpoint is not scoped to the
+active profile; ratings, `read`, and progress on each record reflect
+whichever profile last had them applied server-side. Use
+`PATCH /api/books/:id` to read/write the *active* profile's own state,
+via its returned book object.
+
+**Response:** `{ "books": BookRecord[] }`
+
+## `POST /api/books`
+
+<Badge text="POST" variant="success" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Uploads an EPUB. `multipart/form-data`, one field:
+
+| Field | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `file` | file | Yes | Must end in `.epub` |
+
+Deduplicated by SHA-256 content hash — re-uploading identical bytes
+returns the existing book instead of creating a new one.
+
+**Response:** `201` with `{ "book": BookRecord, "duplicate": false }`, or
+`200` with `{ "book": BookRecord, "duplicate": true }` if the file already
+exists. `400` if the file isn't `.epub` or its metadata can't be parsed.
+
+## `PATCH /api/books/:id`
+
+<Badge text="PATCH" variant="warning" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Updates the **active profile's** reading state for one book — rating,
+read status, and reading position all live per-profile, not on the
+shared book record.
+
+**Request body** — all fields optional:
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `rating` | integer 0–5 | `0` clears the rating |
+| `read` | boolean | |
+| `cfi` | string | EPUB CFI (reading position); also stamps `lastReadAt` |
+| `progress` | number | Clamped to 0–100, rounded |
+
+**Response:** `{ "book": Book }` — the book merged with the active
+profile's state.
+
+## `DELETE /api/books/:id`
+
+<Badge text="DELETE" variant="danger" size="medium" /> <Badge text="Admin only" variant="danger" size="medium" />
+
+Deletes the book's files from storage, removes it from the index, and
+clears every profile's reading state for it.
+
+**Response:** `{ "ok": true }`
+
+## `GET /api/books/:id/readers`
+
+<Badge text="GET" variant="info" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Lists other profiles (excluding the active one) that have read, rated,
+or made progress on this book — powers the "Readers" panel on a shared
+install.
+
+**Response:** `{ "readers": [{ "profileId": string, "name": string, "color": string, "read": boolean, "progress"?: number, "rating"?: number }] }`
+
+## `POST /api/books/:id/send-to-ereader`
+
+<Badge text="POST" variant="success" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Emails the book's `.epub` to the active profile's e-reader address. See
+[Send to E-Reader](/features/send-to-ereader) for the SMTP and
+destination-address setup this depends on.
+
+**Response:** `{ "ok": true, "sentTo": string }`, or `400` if SMTP or the
+profile's e-reader email isn't configured yet, `502` if sending fails.
+
+## `GET /api/books/:id/metadata/candidates`
+
+<Badge text="GET" variant="info" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Looks up metadata candidates on Open Library by the book's ISBN, title,
+and author. How many candidates come back is set admin-side — see
+[Settings](/api/settings).
+
+**Response:** `{ "candidates": [...] }`, or `404` if Open Library has no
+match.
+
+## `POST /api/books/:id/metadata`
+
+<Badge text="POST" variant="success" size="medium" /> <Badge text="Any session" variant="default" size="medium" />
+
+Applies edited or looked-up metadata. Accepts either JSON or
+`multipart/form-data` (use form data to upload a cover file directly).
+
+**Request body (JSON)**
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `title` | string | |
+| `author` | string | |
+| `description` | string | |
+| `coverUrl` | string | Fetched server-side and stored as the new cover |
+
+**Request body (form data)** — same `title`/`author`/`description`
+fields, plus a `cover` file field (must be an image) instead of
+`coverUrl`.
+
+**Response:** `{ "book": BookRecord }`

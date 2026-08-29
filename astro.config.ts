@@ -7,11 +7,22 @@ const nimbusConfig = defineNimbusConfig({
   // Canonical origin — drives canonical URLs, absolute OG image URLs,
   // robots.txt, sitemap, and the links in /llms.txt.
   site: "https://docs.bookhoarder.dev",
-  title: "Bookhoard",
-  description: "Documentation for Bookhoard, a self-hosted EPUB library.",
+  title: "Bookhoarder",
+  description: "Documentation for Bookhoarder, a self-hosted EPUB library.",
   locale: "en",
-  github: "https://github.com/bookhoard/bookhoard",
-  socialImageAlt: "Bookhoard documentation preview",
+  github: "https://github.com/bookhoard/bookhoarder",
+  socialImageAlt: "Bookhoarder documentation preview",
+  sidebar: {
+    items: [
+      // Unlabeled autogenerate reproduces the default whole-tree behavior
+      // for the primary `docs` collection — Features/Deployment/Storage
+      // keep rendering exactly as before.
+      { autogenerate: { collection: "docs" } },
+      // The HTTP API lives in its own collection (src/content/api/) so it
+      // can sit in one collapsed group without mixing into the docs tree.
+      { label: "API", icon: "ph:code", autogenerate: { collection: "api" }, collapsed: true },
+    ],
+  },
 });
 
 export default defineConfig({

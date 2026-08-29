@@ -1,6 +1,6 @@
-# Bookhoard Docs
+# Bookhoarder Docs
 
-Documentation site for [Bookhoard](https://github.com/bookhoard/bookhoard), a self-hosted EPUB library. Built with [Nimbus](https://nimbus-docs.com).
+Documentation site for [Bookhoarder](https://github.com/bookhoard/bookhoarder), a self-hosted EPUB library. Built with [Nimbus](https://nimbus-docs.com).
 
 ## Develop
 
