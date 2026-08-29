@@ -1,6 +1,6 @@
 ---
 title: Other endpoints
-description: Health check, trending feed, description lookup, and raw file downloads.
+description: Health check, trending feed, description lookup, raw file downloads, and the OPDS catalog.
 sidebar:
   order: 6
 ---
@@ -43,6 +43,22 @@ carry one inline.
 
 **Response:** `{ "description": string | null }`, or `400` if `key` is
 missing.
+
+## OPDS catalog
+
+<Badge text="GET" variant="info" size="medium" /> <Badge text="No session required" variant="default" size="medium" />
+
+An [OPDS](https://opds.io/) catalog for e-reader apps — see [OPDS
+Catalog](/features/opds) for how to use it. All routes return Atom XML
+(`application/atom+xml;profile=opds-catalog;kind=...`), app-wide rather
+than scoped to a profile.
+
+| Route | Returns |
+| --- | --- |
+| `/opds` | Navigation feed — links to the catalogs below |
+| `/opds/all` | Acquisition feed of every book, sorted by title, paginated with `?page=` (50 per page) |
+| `/opds/search?q=` | Acquisition feed matching `q` against title or author |
+| `/opds/opensearch` | OpenSearch description document, so OPDS clients can build the search URL themselves |
 
 ## `GET /api/files/*key`
 

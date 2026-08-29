@@ -1,0 +1,50 @@
+---
+title: OPDS Catalog
+description: Browse and download your library directly from any OPDS-compatible e-reader app.
+sidebar:
+  label: OPDS Catalog
+  order: 6
+---
+
+<Steps>
+  <Step title="Copy the catalog URL">
+    Settings → E-Reader Email → **OPDS Catalog** — copy the URL shown
+    there (it's your Bookhoarder install's own address plus `/opds`).
+  </Step>
+  <Step title="Add it as a catalog in your e-reader app">
+    KOReader, Moon+ Reader, Marvin, and most other OPDS-compatible apps
+    let you add a custom catalog by URL — paste it in.
+  </Step>
+  <Step title="Browse and download">
+    Your library shows up as a catalog you can browse, search, and
+    download books from directly — no email round-trip needed.
+  </Step>
+</Steps>
+
+## How it works
+
+- [OPDS](https://opds.io/) is a standard Atom-based catalog format most
+  e-reader apps already know how to read — Bookhoarder exposes one at
+  `/opds`
+- The root feed links to an **All Books** catalog, sorted alphabetically
+  by title and paginated 50 books at a time
+- A search feed is available too, matching on title or author — apps
+  that support OPDS's OpenSearch discovery pick this up automatically
+- Each entry links straight to the book's `.epub` and its cover, the
+  same files the web app itself reads from storage
+
+## Scope
+
+The catalog is **app-wide, not per-profile** — every profile sees the
+same library through OPDS, the same way [`GET /api/books`](/api/books)
+already works. Shelves aren't exposed as separate OPDS catalogs, since
+they're a per-profile concept with no natural mapping onto a protocol
+that has no session.
+
+<Aside type="note" title="No login required">
+  Unlike the web app, OPDS requests aren't scoped to a profile cookie —
+  the feed is read-only and reachable by anyone who can reach the
+  server, matching how `/api/books` and `/api/files/*` already behave
+  unauthenticated. Put Bookhoarder behind your own network boundary or
+  reverse-proxy auth if that's not the exposure you want.
+</Aside>
