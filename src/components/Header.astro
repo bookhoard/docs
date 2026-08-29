@@ -48,7 +48,8 @@ const showSections = sections.length >= 2;
             alt=""
             width="20"
             height="20"
-            class="absolute inset-0 size-full translate-y-[17%] object-contain transition-transform duration-300 ease-out group-hover:-translate-y-[1%]"
+            data-logo-greet
+            class="absolute inset-0 size-full -translate-y-[1%] object-contain transition-transform duration-300 ease-out group-hover:-translate-y-[1%]"
           />
         </div>
         <span class="font-semibold text-md text-foreground group-hover:text-primary transition-colors">
@@ -107,3 +108,14 @@ const showSections = sections.length >= 2;
     </div>
   </div>
 </header>
+
+<script>
+  // Greets with the logo already "peeking up" (its hover position) on load,
+  // then settles it back down after a moment. Matches the main app's sidebar logo.
+  document.querySelectorAll("[data-logo-greet]").forEach((el) => {
+    setTimeout(() => {
+      el.classList.remove("-translate-y-[1%]");
+      el.classList.add("translate-y-[17%]");
+    }, 1000);
+  });
+</script>
