@@ -1,0 +1,48 @@
+---
+title: Install as an App
+description: Install Bookhoarder as a standalone app on desktop or mobile.
+sidebar:
+  label: Install as an App
+  order: 8
+---
+
+Bookhoarder is installable as a Progressive Web App — an icon on your
+home screen or dock that opens in its own window, no browser chrome
+around it.
+
+<Steps>
+  <Step title="Open Bookhoarder in a supported browser">
+    Chrome, Edge, and most Chromium-based browsers on desktop and
+    Android; Safari on iOS/iPadOS via Share → Add to Home Screen.
+  </Step>
+  <Step title="Install it">
+    Use the browser's install prompt (often an icon in the address bar),
+    or the Add to Home Screen action on mobile Safari.
+  </Step>
+  <Step title="Open it like any other app">
+    It launches standalone, themed to match Bookhoarder's own colors.
+  </Step>
+</Steps>
+
+## What installing gets you
+
+- A standalone window with no address bar or tabs
+- An icon on your home screen, dock, or app launcher
+- Nothing else — this is a shell, not offline reading
+
+<Aside type="note" title="No offline reading">
+  Installing doesn't let you read books without a connection. Everything
+  — the reader, your library, API calls, and every page navigation —
+  still goes straight to the server, every time.
+</Aside>
+
+## Why it's shell-only
+
+Bookhoarder is multi-profile, and which profile's data you see is
+decided server-side on every request, from a cookie — not cached
+client-side. Caching pages or API responses would risk showing one
+profile's library to another after a switch on a shared device, so the
+service worker only ever caches static, content-hashed assets (its own
+JS, CSS, fonts, and images). API routes, the reader, and every page
+navigation are network-first: the cache is only ever a fallback, and
+only when you're genuinely offline.

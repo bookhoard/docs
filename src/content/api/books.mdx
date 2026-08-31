@@ -116,7 +116,18 @@ Applies edited or looked-up metadata. Accepts either JSON or
 | `coverUrl` | string | Fetched server-side and stored as the new cover |
 
 **Request body (form data)** — same `title`/`author`/`description`
-fields, plus a `cover` file field (must be an image) instead of
-`coverUrl`.
+fields, plus:
 
-**Response:** `{ "book": BookRecord }`
+| Field | Type | Notes |
+| --- | --- | --- |
+| `cover` | file | Must be an image; used instead of `coverUrl` |
+| `tags` | string | JSON-encoded string array, e.g. `'["sci-fi","favorite"]'`. Trimmed, deduped case-insensitively, capped at 30 tags of 40 characters each |
+| `seriesName` | string | Empty clears the series |
+| `seriesPosition` | string | Parsed as a number; defaults to `0` if missing or invalid |
+
+`tags` and series fields are only accepted via form data — the JSON body
+form only takes `title`/`author`/`description`/`coverUrl`.
+
+**Response:** `{ "book": BookRecord }` — `BookRecord` includes optional
+`tags: string[]` and `series: { name: string, position: number }`, unset
+on books that don't have either.

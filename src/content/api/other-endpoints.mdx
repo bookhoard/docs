@@ -1,6 +1,6 @@
 ---
 title: Other endpoints
-description: Health check, trending feed, description lookup, raw file downloads, and the OPDS catalog.
+description: Health check, trending feed, description lookup, raw file downloads, backups, and the OPDS catalog.
 sidebar:
   order: 6
 ---
@@ -30,6 +30,26 @@ Open Library's trending feed — see [Metadata & Discovery](/features/metadata-a
 | `period` | `"daily" \| "weekly" \| "monthly"` | No | Defaults to `"weekly"`; invalid values also fall back to it |
 
 **Response:** `{ "books": [{ "key": string, "title": string, "authors"?: string[], "coverUrl"?: string }] }` — up to 24 books.
+
+## `GET /api/backup`
+
+<Badge text="GET" variant="info" size="medium" /> <Badge text="Admin only" variant="danger" size="medium" />
+
+Streams a zip of the library — see [Library Backup](/features/backup).
+Response is `Content-Type: application/zip`, streamed with fflate's
+`Zip`/`ZipPassThrough` so memory use stays flat regardless of library
+size. Internal paths mirror storage keys exactly.
+
+**Query parameters**
+
+| Field | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `files` | `"1"` | No | Include every book's EPUB and cover bytes on top of metadata. Omit for a metadata-only export |
+
+**Response:** `200` with the zip stream and a `Content-Disposition:
+attachment; filename="bookhoard-backup-<date>[-full].zip"` header, `403`
+if the active profile isn't an admin, or `403` if backups are disabled
+(the public demo build).
 
 ## `GET /api/metadata/description`
 

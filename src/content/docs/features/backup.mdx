@@ -1,0 +1,46 @@
+---
+title: Library Backup
+description: Download a zip of your library so it lives somewhere other than one bucket.
+sidebar:
+  label: Backup
+  order: 7
+---
+
+<Steps>
+  <Step title="Open Settings → Backup">
+    Admin only — from any profile's Settings, there's a **Backup**
+    category.
+  </Step>
+  <Step title="Pick what to include">
+    Metadata only (fast, small) or metadata plus every EPUB and cover
+    file.
+  </Step>
+  <Step title="Download">
+    A zip streams straight to your browser as `Download backup`.
+  </Step>
+</Steps>
+
+## What's in the zip
+
+- **Metadata only** (the default) — every book's title, author,
+  description, tags, series, and reading state, plus your shelves and
+  server settings. No EPUB or cover bytes, so it's small and fast
+  regardless of library size.
+- **Include EPUB and cover files** — an opt-in switch that adds every
+  book's actual files on top of the metadata above. Settings shows a
+  rough size estimate before you download.
+
+Either way, the zip's internal paths mirror the storage layout exactly —
+restoring is unzipping it back into your storage bucket (keeping the
+folder structure) and restarting the app. There's no restore button; this
+is a one-way export.
+
+## Notes
+
+- The download streams as it's built, so memory use stays flat no matter
+  how large your library is — a backup with files included doesn't load
+  the whole thing into memory first
+- Backups are disabled entirely on the public demo build, alongside
+  uploads and other admin actions
+- See [Profiles & Access](/features/profiles) for what "admin" means on a
+  shared install
