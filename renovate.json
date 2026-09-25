@@ -1,0 +1,66 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps",
+  "timezone": "Europe/Istanbul",
+  "dependencyDashboard": true,
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 8,
+  "prHourlyLimit": 2,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on monday"]
+  },
+  "postUpdateOptions": ["pnpmDedupe"],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["at any time"],
+    "labels": ["dependencies", "security"]
+  },
+  "osvVulnerabilityAlerts": true,
+  "packageRules": [
+    {
+      "description": "Auto-merge patch/minor devDependency updates once CI passes; runtime deps and majors always wait for review.",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor", "pin", "digest"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Never auto-merge majors, regardless of dep type.",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "major-update"]
+    },
+    {
+      "description": "Group the Astro ecosystem so the site framework and its plugins move together.",
+      "groupName": "Astro",
+      "matchPackageNames": ["astro", "@astrojs/**", "astro-og-canvas"]
+    },
+    {
+      "description": "Group Tailwind packages.",
+      "groupName": "Tailwind",
+      "matchPackageNames": ["tailwindcss", "@tailwindcss/**", "tailwind-merge"]
+    },
+    {
+      "description": "Group Fontsource font packages.",
+      "groupName": "Fontsource fonts",
+      "matchPackageNames": ["@fontsource-variable/**", "@fontsource/**"]
+    },
+    {
+      "description": "Group Iconify icon sets.",
+      "groupName": "Iconify",
+      "matchPackageNames": ["@iconify-json/**", "@iconify/**"]
+    },
+    {
+      "description": "GitHub Actions: group and allow digest/patch auto-merge, keep majors reviewed.",
+      "groupName": "GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["patch", "minor", "digest"],
+      "automerge": true
+    }
+  ]
+}
