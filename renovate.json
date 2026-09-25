@@ -22,8 +22,7 @@
   "osvVulnerabilityAlerts": true,
   "packageRules": [
     {
-      "description": "Auto-merge patch/minor devDependency updates once CI passes; runtime deps and majors always wait for review.",
-      "matchDepTypes": ["devDependencies"],
+      "description": "Auto-merge patch/minor updates for all dependencies (runtime and dev) once CI passes; majors always wait for review.",
       "matchUpdateTypes": ["patch", "minor", "pin", "digest"],
       "automerge": true,
       "automergeType": "pr",
