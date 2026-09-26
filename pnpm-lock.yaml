@@ -27,8 +27,8 @@ importers:
         specifier: ^0.13.0
         version: 0.13.2(astro@7.3.5(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
       canvaskit-wasm:
-        specifier: ^0.41.1
-        version: 0.41.1
+        specifier: ^0.42.0
+        version: 0.42.0
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1184,9 +1184,6 @@ packages:
 
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
-
-  canvaskit-wasm@0.41.1:
-    resolution: {integrity: sha512-gO2rNMIE0lOQ8MaarM4qNeq2zZAEknAObKP2XAKidMSAY8P5sURGdFkrx1TSdHuBFqTf5w35JqjuUzjibqkD5g==}
 
   canvaskit-wasm@0.42.0:
     resolution: {integrity: sha512-N3ikotmzYwDVAcpQKDMptBT2P5pIEWS9ywdmrQA2awwaMF9cxKEFuxZZHv9ay1Em9kDjxDsPtwUzDm1uNj136g==}
@@ -3711,10 +3708,6 @@ snapshots:
   base-64@1.0.0: {}
 
   boolbase@1.0.0: {}
-
-  canvaskit-wasm@0.41.1:
-    dependencies:
-      '@webgpu/types': 0.1.21
 
   canvaskit-wasm@0.42.0:
     dependencies:
