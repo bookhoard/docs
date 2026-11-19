@@ -17,6 +17,7 @@
     "/features",
     "/features/backup",
     "/features/library",
+    "/features/mcp",
     "/features/metadata-and-discovery",
     "/features/opds",
     "/features/profiles",

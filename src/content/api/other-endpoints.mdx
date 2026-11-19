@@ -1,6 +1,6 @@
 ---
 title: Other endpoints
-description: Health check, trending feed, description lookup, raw file downloads, backups, and the OPDS catalog.
+description: Health check, trending feed, description lookup, raw file downloads, backups, the OPDS catalog, and the MCP endpoint.
 sidebar:
   order: 6
 ---
@@ -93,3 +93,21 @@ scoped to a book ID; `key` is the full storage path, for example
 path and `Cache-Control: public, max-age=31536000, immutable` (safe
 since every key is either content-hash-deduped or cover-versioned). `404`
 if the key doesn't exist in storage.
+
+## `POST /api/mcp`
+
+<Badge text="POST" variant="info" size="medium" /> <Badge text="No session required" variant="default" size="medium" />
+
+The [MCP](/features/mcp) endpoint, using the Streamable HTTP transport in
+stateless mode: every request is a standalone JSON-RPC message and the
+reply is plain JSON. There are no sessions, and no streaming.
+
+Send `Content-Type: application/json` and
+`Accept: application/json, text/event-stream`. Tools act as the profile set
+by `MCP_PROFILE_ID`, or the first admin when it isn't set — the
+`bookhoard_profile` cookie is ignored here.
+
+**Response:** a JSON-RPC response. A tool that fails (an unknown book, a
+bad rating) still answers `200`, with `isError: true` in the tool result.
+`403` for a request with an `Origin` header from another site, `405` for
+`GET` and `DELETE`, and `403` for every request on the read-only demo.
